@@ -29,7 +29,17 @@
     "click here to request another": "pulsa aquí para que te enviemos otro",
     "All rights reserved.":  "Todos los derechos reservados.",
     "Clients": "Clientes",
+    "Loans": "Préstamos",
+    "Payments": "Pagos",
     "New Client": "Nuevo Cliente",
     "Cancel": "Cancelar",
-    "Phone": "Teléfono"
+    "Phone": "Teléfono",
+    "Edit Profile": "Editar Perfil",
+    "Amount": "Cantidad",
+    "Payments Number": "Número de Pagos",
+    "Fee": "Cuota",
+    "Ministry Date": "Fecha de Ministración",
+    "Due Date": "Fecha de Vencimiento",
+    "New Loan" : "Nuevo Prestamo",
+    "Client" : "Cliente"
 }

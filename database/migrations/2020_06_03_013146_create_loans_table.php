@@ -18,6 +18,18 @@ class CreateLoansTable extends Migration
 
             $table->unsignedBigInteger('client_id');
 
+            $table->decimal('amount');
+
+            $table->integer('payments_number');
+
+            $table->decimal('fee');
+
+            $table->date('ministry_date');
+
+            $table->date('due_date');
+            
+            $table->tinyInteger('finished');
+
             $table->timestamps();
 
             $table->foreign('client_id')
