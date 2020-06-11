@@ -7,11 +7,11 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h3 class="mb-0">Prestamos</h3>
+                        <h3 class="mb-0">Pagos</h3>
                     </div>
                     <div>
-                        <a href="{{ route('loans.create') }}" class="btn btn-primary">
-                            {{ __('New Loan')}}
+                        <a href="{{ route('payments.create') }}" class="btn btn-primary">
+                            {{ __('New Payment')}}
                         </a>
                     </div>
                 </div>
@@ -22,27 +22,29 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">{{ __('Name') }}</th>
+                            <th scope="col">{{ __('Loan Id') }}</th>
+                            <th scope="col">{{ __('Number') }}</th>
                             <th scope="col">{{ __('Amount') }}</th>
-                            <th scope="col">{{ __('Payments Number') }}</th>
-                            <th scope="col">{{ __('Fee') }}</th>
-                            <th scope="col">{{ __('Ministry Date') }}</th>
-                            <th scope="col">{{ __('Due Date') }}</th>
+                            <th scope="col">{{ __('Payment Date') }}</th>
+                            <th scope="col">{{ __('Received Amount') }}</th>
                             <th scope="col" style="width: 150px">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($loans as $loan)
+                        @foreach ($payments as $payment)
                         <tr>
-                            <td scope="row">{{ $loan->id }}</td>
-                            <td>{{ $loan->client_id }}</td>
-                            <td>{{ $loan->amount }}</td>
-                            <td>{{ $loan->payments_number }}</td>
-                            <td>{{ $loan->fee }}</td>
-                            <td>{{ $loan->ministry_date }}</td>
-                            <td>{{ $loan->due_date }}</td>
+                            <td scope="row">{{ $payment->id }}</td>
+                            <td>{{ $payment->client_id }}</td>
+                            <td>{{ $payment->amount }}</td>
+                            <td>{{ $payment->payments_number }}</td>
+                            <td>{{ $payment->fee }}</td>
+                            <td>{{ $payment->ministry_date }}</td>
+                            <td>{{ $payment->due_date }}</td>
                             <td>
-                                <button class="btn btn-outline-secondary btn-sm btn-edit" data-id="{{ $loan->id }}">Editar</button>
-                                <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $loan->id }}">Delete</button>
+                                <a href="" class="btn btn-outline-secondary btn-sm">
+                                    Show
+                                </a>
+                                <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $payment->id }}">Delete</button>
                             </td>
                         </tr>
                         @endforeach
@@ -69,14 +71,14 @@
         })
         .then((result) => {
             if (result.value) {
-                axios.delete('{{ route('loans.index') }}/' + id)
+                axios.delete('{{ route('payments.index') }}/' + id)
                     .then(result => {
                         Swal.fire({
                             title: 'Borrado',
                             text: 'El prestamo a sido borrado',
                             icon: 'success'
                         }).then(() => {
-                            window.location.href='{{ route('loans.index') }}';
+                            window.location.href='{{ route('payments.index') }}';
                         });
                     })
                     .catch(error => {
@@ -90,6 +92,5 @@
             }
         });
     });
-    
 </script>
 @endsection

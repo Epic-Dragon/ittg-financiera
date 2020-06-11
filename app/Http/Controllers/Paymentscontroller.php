@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Loan;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
-class LoansController extends Controller
+class Paymentscontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = Loan::all();
-        return view('loans.index', [
-            'loans' => $loans,
+        $payments = Payment::all();
+        return view('payments.index', [
+            'payments' => $payments,
         ]);
     }
 
@@ -27,7 +27,7 @@ class LoansController extends Controller
      */
     public function create()
     {
-        return view('loans.create');
+        return view('payments.create');
     }
 
     /**
@@ -40,23 +40,23 @@ class LoansController extends Controller
     {
         $request->validate([
             'client_id'  => 'required',
+            'loan_id' => 'required',
+            'number' => 'required',
             'amount' => 'required',
-            'payments_number' => 'required',
-            'fee' => 'required',
-            'ministry_date' => 'required',
-            'due_date' => 'required',
+            'payment_date' => 'required',
+            'received_amount' => 'required',
         ]);
 
         Loan::create([
             'client_id'  => $request->input('client_id'),
+            'loan_id' => $request->input('loan_id'),
+            'number' => $request->input('number'),
             'amount' => $request->input('amount'),
-            'payments_number' => $request->input('payments_number'),
-            'fee' => $request->input('fee'),
-            'ministry_date' => $request->input('ministry_date'),
-            'due_date' => $request->input('due_date'),
+            'payment_date' => $request->input('payment_date'),
+            'received_amount' => $request->input('received_amount'),
         ]);
 
-        return redirect()->route('loans.index');
+        return redirect()->route('payments.index');
     }
 
     /**
@@ -90,7 +90,7 @@ class LoansController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**
@@ -101,10 +101,10 @@ class LoansController extends Controller
      */
     public function destroy($id)
     {
-        $loan = Loan::find($id);
+        $payment = Payment::find($id);
 
-        $loan->delete();
+        $payment->delete();
 
-        return $loan;
+        return $payment;
     }
 }

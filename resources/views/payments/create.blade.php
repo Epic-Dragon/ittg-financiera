@@ -7,17 +7,17 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h3 class="mb-0">{{ __('New Loan') }}</h3>
+                        <h3 class="mb-0">{{ __('New Payment') }}</h3>
                     </div>
                     <div>
-                        <a href="{{ route('loans.index') }}" class="btn btn-danger">
+                        <a href="{{ route('payments.index') }}" class="btn btn-danger">
                             {{ __('Cancel')}}
                         </a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ route('loans.store') }}" method="POST">
+                <form action="{{ route('payments.store') }}" method="POST">
                     @csrf
                     <div class="form-group form-row">
                         <div class="col-md-6">

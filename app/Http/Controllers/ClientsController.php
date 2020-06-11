@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ClientImport; //  <--Revisar esto
 
 class ClientsController extends Controller
 {
@@ -100,5 +103,17 @@ class ClientsController extends Controller
         $client->delete();
 
         return $client;
+    }
+
+    public function importExcel(Request $request)
+    {
+        Excel::import(new ClientImport, request()->file('file'));
+
+        return redirect()->route('clients.index');
+    }
+
+    public function import()
+    {
+        return view('clients.import');
     }
 }

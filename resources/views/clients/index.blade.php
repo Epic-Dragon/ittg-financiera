@@ -13,6 +13,9 @@
                         <a href="{{ route('clients.create') }}" class="btn btn-primary">
                             {{ __('New Client')}}
                         </a>
+                        <a href="{{ route('clients.import') }}" class="btn btn-success">
+                            {{ __('Import customers')}}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -34,9 +37,9 @@
                             <td>{{ $client->phone }}</td>
                             <td>
                                 <a href="" class="btn btn-outline-secondary btn-sm">
-                                    Show
+                                    Ver
                                 </a>
-                                <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $client->id }}">Delete</button>
+                                <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $client->id }}">Eliminar</button>
                             </td>
                         </tr>
                         @endforeach

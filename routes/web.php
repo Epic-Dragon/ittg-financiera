@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Client;
+use App\Models\Loan;
+use App\Models\Payment;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +31,15 @@ Route::post('/clients', 'ClientsController@store')
     ->name('clients.store');
 Route::delete('/clients/{id}', 'ClientsController@destroy')
     ->name('clients.destroy');
+Route::get('/clients/import', 'ClientsController@import')
+    ->name('clients.import');    
+Route::post('/clients/import/save', 'ClientsController@save')
+    ->name('clients.save');
+Route::post('/clients/import', 'ClientsController@importExcel')
+    ->name('clients.import');
+
+
+
 
 Route::get('/loans', 'LoansController@index')
     ->name('loans.index');
@@ -36,3 +47,16 @@ Route::get('/loans/new', 'LoansController@create')
     ->name('loans.create');
 Route::post('/loans', 'LoansController@store')
     ->name('loans.store');
+Route::delete('/loans/{id}', 'LoansController@destroy')
+    ->name('loans.destroy');
+
+
+
+Route::get('/payments', 'PaymentsController@index')
+    ->name('payments.index');
+Route::get('/payments/new', 'PaymentsController@create')
+    ->name('payments.create');
+Route::post('/payments', 'PaymentsController@store')
+    ->name('payments.store');
+Route::delete('/payments/{id}', 'PaymentsController@destroy')
+    ->name('payments.destroy');        
