@@ -13,9 +13,11 @@
                         <a href="{{ route('clients.create') }}" class="btn btn-primary">
                             {{ __('New Client')}}
                         </a>
-                        <a href="{{ route('clients.import') }}" class="btn btn-success">
-                            {{ __('Import customers')}}
+
+                        <a href="{{ route('clients.import') }}" class="btn btn-primary">
+                            {{ __('Import Customers')}}
                         </a>
+
                     </div>
                 </div>
             </div>

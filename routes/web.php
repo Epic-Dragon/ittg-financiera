@@ -31,13 +31,10 @@ Route::post('/clients', 'ClientsController@store')
     ->name('clients.store');
 Route::delete('/clients/{id}', 'ClientsController@destroy')
     ->name('clients.destroy');
-Route::get('/clients/import', 'ClientsController@import')
-    ->name('clients.import');    
-Route::post('/clients/import/save', 'ClientsController@save')
+Route::post('/clients/import/save', 'ClientsController@importExcel')
     ->name('clients.save');
-Route::post('/clients/import', 'ClientsController@importExcel')
-    ->name('clients.import');
-
+Route::get('/clients/import', 'ClientsController@import')
+    ->name('clients.import'); 
 
 
 

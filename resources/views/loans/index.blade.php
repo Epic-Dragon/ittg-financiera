@@ -1,51 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
+<div class="row ">
     <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div>
-                        <h3 class="mb-0">Prestamos</h3>
+                    <div class="">
+                        <h3 class="mb-0">Préstamos</h3>
                     </div>
-                    <div>
-                        <a href="{{ route('loans.create') }}" class="btn btn-primary">
-                            {{ __('New Loan')}}
-                        </a>
+                    <div class="">
+                        <a href="{{ route('loans.create') }}" class="btn btn-primary">Nuevo Préstamo</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{ __('Name') }}</th>
-                            <th scope="col">{{ __('Amount') }}</th>
-                            <th scope="col">{{ __('Payments Number') }}</th>
-                            <th scope="col">{{ __('Fee') }}</th>
-                            <th scope="col">{{ __('Ministry Date') }}</th>
-                            <th scope="col">{{ __('Due Date') }}</th>
-                            <th scope="col" style="width: 150px">{{ __('Actions') }}</th>
+                            <th >ID</th>
+                            <th >Nombre</th>
+                            <th >Cantidad</th>
+                            <th >Número de pagos</th>
+                            <th >Cuota</th>
+                            <th >Fecha de Ministración </th>
+                            <th >Fecha de Vencimiento </th>
+                            <th >Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($loans as $loan)
-                        <tr>
-                            <td scope="row">{{ $loan->id }}</td>
-                            <td>{{ $loan->client_id }}</td>
-                            <td>{{ $loan->amount }}</td>
-                            <td>{{ $loan->payments_number }}</td>
-                            <td>{{ $loan->fee }}</td>
-                            <td>{{ $loan->ministry_date }}</td>
-                            <td>{{ $loan->due_date }}</td>
-                            <td>
-                                <button class="btn btn-outline-secondary btn-sm btn-edit" data-id="{{ $loan->id }}">Editar</button>
-                                <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $loan->id }}">Delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
+                       @foreach($recursos as $loan)
+                            <tr>
+                                <td>{{ $loan->id }}</td>
+                                <td>{{ $loan->client->name }}</td>
+                                <td>{{ $loan->amount }}</td>
+                                <td>{{ $loan->payments_number}}</td>
+                                <td>{{ $loan->fee }}</td>
+                                <td>{{ $loan->ministry_date }}</td>
+                                <td>{{ $loan->due_date }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">Ver</a>
+                                    <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $loan->id }}" >Borrar</button>
+                                </td>
+                            </tr>
+                       @endforeach
                     </tbody>
                 </table>
             </div>
@@ -58,6 +56,11 @@
 <script>
     $('body').on('click', '.btn-delete', function(event) {
         const id = $(this).data('id');
+
+        const options = {
+        headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
+        };
+
         Swal.fire({
             title: '¿Estás seguro?',
             text: 'No podrás revertir esta acción',
@@ -69,11 +72,11 @@
         })
         .then((result) => {
             if (result.value) {
-                axios.delete('{{ route('loans.index') }}/' + id)
+                axios.delete('{{ route('loans.index') }}/'+ id, options)  
                     .then(result => {
                         Swal.fire({
                             title: 'Borrado',
-                            text: 'El prestamo a sido borrado',
+                            text: 'El prestamo ha sido borrado',
                             icon: 'success'
                         }).then(() => {
                             window.location.href='{{ route('loans.index') }}';
@@ -86,10 +89,8 @@
                             'error'
                         );
                     });
-
             }
         });
     });
-    
 </script>
 @endsection

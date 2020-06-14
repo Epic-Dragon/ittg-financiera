@@ -40,11 +40,13 @@
     "Fee": "Cuota",
     "Ministry Date": "Fecha de Ministración",
     "Due Date": "Fecha de Vencimiento",
-    "New Loan": "Nuevo Prestamo",
+    "New Loan": "Nuevo Préstamo",
     "Client": "Cliente",
     "New Payment": "Nuevo Pago",
     "Create": "Crear",
     "Delete": "Eliminar",
-    "Import customers": "Importar Clientes"
+    "Import Customers": "Importar Clientes",
+    "Actions": "Acciones",
+    "Quantity": "Cantidad"
 
 }

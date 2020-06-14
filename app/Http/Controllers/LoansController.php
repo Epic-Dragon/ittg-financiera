@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Loan;
 use Illuminate\Http\Request;
-
+use App\Models\Loan;
+use App\Models\Client;
+use App\Models\Payment;
+use Carbon\Carbon;
+use DB;
 class LoansController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,10 +21,14 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = Loan::all();
-        return view('loans.index', [
-            'loans' => $loans,
-        ]);
+
+     /*   $loans = Loan::with('client')->get();
+        return view('loans.index',[
+            'loans' => $loans
+        ]); */
+
+        $recursos = Loan::where('finished', 0)->orderBy('id')->get();
+        return view('loans.index', compact('recursos'));
     }
 
     /**
@@ -27,7 +38,10 @@ class LoansController extends Controller
      */
     public function create()
     {
-        return view('loans.create');
+
+        $recursos = Client::all();
+        return view('loans.create',['recursos'=>$recursos]);
+
     }
 
     /**
@@ -38,25 +52,46 @@ class LoansController extends Controller
      */
     public function store(Request $request)
     {
+        $numeroPagos = (int) $request->get('numeroPagos');
+        $fp =  $request->get('fechaMinistry');
+        $fecha1 = date_create($fp);
         $request->validate([
-            'client_id'  => 'required',
-            'amount' => 'required',
-            'payments_number' => 'required',
-            'fee' => 'required',
-            'ministry_date' => 'required',
-            'due_date' => 'required',
+            'client'  => 'required',
+            'cantidad' => 'required|numeric',
+            'numeroPagos' => 'required|numeric',
+            'cuota'  => 'required|numeric',
+            'fechaMinistry' => 'required|date',
+            'fechaVencimiento' => 'required|date',
         ]);
-
-        Loan::create([
-            'client_id'  => $request->input('client_id'),
-            'amount' => $request->input('amount'),
-            'payments_number' => $request->input('payments_number'),
-            'fee' => $request->input('fee'),
-            'ministry_date' => $request->input('ministry_date'),
-            'due_date' => $request->input('due_date'),
+       $Loan= Loan::create([
+            'client_id'  => $request->input('client'),
+            'amount' => $request->input('cantidad'),
+            'payments_number' => $request->input('numeroPagos'),
+            'fee'  => $request->input('cuota'),
+            'ministry_date' => $request->input('fechaMinistry'),
+            'due_date' => $request->input('fechaVencimiento'),
+            'received_amount' => 0,
+            'finished' => 0,
         ]);
-
+        $id = $Loan->id;
+        //creamos los registros de los payments o pagos
+        for ($i = 1; $i <= $numeroPagos; $i++) {
+            $dias = (int) 0;
+            $dias++;
+            $fecha2 = date_add($fecha1, date_interval_create_from_date_string($dias." days"));
+            
+            Payment::create([
+                'client_id'  => $request->input('client'),
+                'loan_id' => $id,
+                'number' => $i,
+                'amount' => $request->input('cantidad'),
+                'payment_date' =>  $fecha2,
+                'received_amount' => 0,
+                'complet' => 0,
+                ]);
+        }
         return redirect()->route('loans.index');
+           
     }
 
     /**
@@ -90,7 +125,7 @@ class LoansController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**

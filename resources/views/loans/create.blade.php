@@ -21,19 +21,26 @@
                     @csrf
                     <div class="form-group form-row">
                         <div class="col-md-6">
-                        
-                            <label for="client_id">{{ __('Client') }}</label>
-                            <input type="text" name="client_id" id="client_id" class="form-control @error('client_id') is-invalid @enderror">
-                            @error('client_id')
+                            <label for="name">{{ __('Client') }}</label>
+                            <!-- <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"> -->
+                            
+                                <select name="client" id="cars" class="form-control @error('client') is-invalid @enderror col-md-12">
+                                @foreach($recursos as $Client)
+                                    <option value="{{$Client->id}}">{{$Client->name}}</option>
+                                @endforeach
+                                </select>
+                           
+                                
+                            @error('client')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="amount">{{ __('Amount') }}</label>
-                            <input type="text" name="amount" id="amount" class="form-control @error('amount') is-invalid @enderror">
-                            @error('amount')
+                            <label for="cantidad">{{ __('Quantity') }}</label>
+                            <input type="text" name="cantidad" id="phone" placeholder="$" class="form-control @error('cantidad') is-invalid @enderror">
+                            @error('cantidad')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -42,48 +49,44 @@
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-6">
-                            <label for="payments_number">{{ __('Numero de Pagos en Dias') }}</label>
-                            <input type="int" name="payments_number" id="payments_number" class="form-control @error('payments_number') is-invalid @enderror">
-                            @error('payments_number')
+                            <label for="numeroPagos">{{ __('Payments Number') }}</label>
+                            <input type="text" name="numeroPagos" id="address" class="form-control @error('numeroPagos') is-invalid @enderror">
+                            @error('numeroPagos')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-
                         <div class="col-md-6">
-                            <label for="fee">{{ __('Fee') }}</label>
-                            <input type="int" name="fee" id="fee" class="form-control @error('fee') is-invalid @enderror">
-                            @error('fee')
+                            <label for="cuota">{{ __('Fee') }}</label>
+                            <input type="text" name="cuota" id="address" placeholder="$" class="form-control @error('cuota') is-invalid @enderror">
+                            @error('cuota')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                     </div>
-
                     <div class="form-group form-row">
                         <div class="col-md-6">
-                            <label for="ministry_date">{{ __('Ministry Date') }}</label>
-                            <input type="date" name="ministry_date" id="ministry_date" class="form-control @error('ministry_date') is-invalid @enderror">
-                            @error('ministry_date')
+                            <label for="fechaMinistry">{{ __('Ministry Date') }}</label>
+                            <input type="date"  value="{{ $recursos[0]->fechacrea_format->format('Y-m-d')}}" name="fechaMinistry" id="fechaMinistry"  class="form-control @error('fechaMinistry') is-invalid @enderror">
+                            @error('fechaMinistry')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-
                         <div class="col-md-6">
-                            <label for="due_date">{{ __('Due Date') }}</label>
-                            <input type="date" name="due_date" id="due_date" class="form-control @error('due_date') is-invalid @enderror">
-                            @error('due_date')
+                            <label for="fechaVencimiento">{{ __('Due Date') }}</label>
+                            <input type="date" value="{{ $recursos[0]->FechaCal->addDays('fechaVencimiento')->format('Y-m-d')}}" name="fechaVencimiento" id="address" class="form-control @error('fechaVencimiento') is-invalid @enderror">
+                            @error('fechaVencimiento')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                     </div>
-
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg">{{ __('Create') }}</button>
                     </div>

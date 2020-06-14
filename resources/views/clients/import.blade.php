@@ -15,18 +15,15 @@
                 </div>
             </div>
             <div class="card-body">
-
-            <form action="{{ route('clients.import') }}"  method="post"enctype="multipart/form-data">
-                            @csrf
-                            @if(Session::has('message'))
-                                <p>{{ Session::get(message)}} </p>
-                            @endif
-                            <input type="file" name="file">
-                            <button type="submit" class="btn btn-primary">{{ __('Import customers')}}</button>
-                        </form>
-
-
-
+                <form method="POST" action="{{ route('clients.save') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-row">
+                        <input type="file" name="file">
+                    </div>
+                    <div class="form-row my-3">
+                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
