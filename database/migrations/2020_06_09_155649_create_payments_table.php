@@ -21,6 +21,7 @@ class CreatePaymentsTable extends Migration
             $table->decimal('amount');
             $table->date('payment_date');
             $table->decimal('received_amount');
+            $table->boolean('complet')->default(0);
             $table->timestamps();
 
             
