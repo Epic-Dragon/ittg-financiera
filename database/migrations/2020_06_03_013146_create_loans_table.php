@@ -21,7 +21,7 @@ class CreateLoansTable extends Migration
             $table->decimal('fee');
             $table->date('ministry_date');
             $table->date('due_date');
-            $table->tinyInteger('finished');
+            $table->tinyInteger('finished')->default(0);
             $table->timestamps();
 
             $table->foreign('client_id')

@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
+
 use Illuminate\Http\Request;
+use App\Models\Payment;
+use App\Models\Loan;
+use App\Models\Client;
+use App\Exports\PaymentsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 class Paymentscontroller extends Controller
 {
@@ -20,10 +26,9 @@ class Paymentscontroller extends Controller
 
     public function index()
     {
-        $payments = Payment::all();
-        return view('payments.index', [
-            'payments' => $payments,
-        ]);
+        $recursos = Loan::where('finished', 0)->orderBy('id')->get();
+        
+        return view('payments.index',compact('recursos'));
     }
 
     /**
@@ -42,27 +47,64 @@ class Paymentscontroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $loan_id, $client_id)
     {
-        $request->validate([
-            'client_id'  => 'required',
-            'loan_id' => 'required',
-            'number' => 'required',
-            'amount' => 'required',
-            'payment_date' => 'required',
-            'received_amount' => 'required',
-        ]);
-
-        Loan::create([
-            'client_id'  => $request->input('client_id'),
-            'loan_id' => $request->input('loan_id'),
-            'number' => $request->input('number'),
-            'amount' => $request->input('amount'),
-            'payment_date' => $request->input('payment_date'),
-            'received_amount' => $request->input('received_amount'),
-        ]);
-
-        return redirect()->route('payments.index');
+        $abonos = Payment::where('loan_id',$loan_id)->where('client_id',$client_id)
+        ->where('complet',0)->orderBy('id')->get();
+        $Cantidad = $request->get('Cantidad');
+        foreach($abonos as $abono)
+        {
+           if($Cantidad > 0)
+           {
+                if($abono->received_amount <= 0)//cuando tengo 0 abonado
+                {
+                    if($Cantidad == $abono->loan->fee)
+                    {
+                        
+                        Payment::where('id', $abono->id)->update(['received_amount' => $Cantidad, 'complet' => 1]);
+                        $Cantidad = $Cantidad - $abono->loan->fee;
+                    }
+                    else if ($Cantidad > $abono->loan->fee)//cuano no he depositado pero tengo más del que necesito
+                    {
+                        Payment::where('id', $abono->id)->update(['received_amount' => $abono->loan->fee, 'complet' => 1]);
+                        $Cantidad = $Cantidad - $abono->loan->fee;
+                    }
+                    else{
+                        Payment::where('id', $abono->id)->update(['received_amount' => $Cantidad, 'complet' => 0]);
+                        $Cantidad = 0;
+                        
+                    }
+                }
+                else //cuando ya tengo algo abonado
+                {
+                    // lo que me falta pagar = lo que debo pagar - lo que ya pague;
+                    $resto = $abono->loan->fee - $abono->received_amount;
+                    if($Cantidad >= $resto)
+                    {
+                        Payment::where('id', $abono->id)->update(['received_amount' => $abono->loan->fee, 'complet' => 1]);
+                        $Cantidad = $Cantidad - $resto;
+                    }
+                    //con lo que estoy pagando es menor a lo que debo
+                    else //if($Cantidad < $resto) //mi cantidad entrante es menor a lo que debo pagar
+                    {
+                        
+                        //$Total = lo que ya deposite + la cantidad que viene del nuevo deposito
+                        $Total = $abono->loan->received_amount + $Cantidad;
+                        Payment::where('id', $abono->id)->update(['received_amount' => $Total, 'complet' => 0]);
+                        $Cantidad = 0;
+                    }
+                }
+           }
+        }
+        //si ya se pagaron todos los pagos, poner en finished 1
+        $NumeroPagos = Loan::where('id',$loan_id)->first();
+        //saber cuantos
+        $PagosHechos = Payment::where('loan_id',$loan_id)->where('client_id',$client_id)->where('complet',1)->count();
+        if($NumeroPagos->payments_number == $PagosHechos)
+        {
+            Loan::where('id', $loan_id)->update(['finished' => 1]);
+        }
+        return redirect()->route('payments.refresh', ['loan_id' => $loan_id, 'client_id' => $client_id]);
     }
 
     /**
@@ -73,8 +115,20 @@ class Paymentscontroller extends Controller
      */
     public function show($id)
     {
-        //
+        $recursos = Loan::where('id',$loan_id)->where('client_id',$client_id)->get();
+        $pagos = Payment::where('loan_id',$loan_id)->where('client_id',$client_id)->get();
+      
+        return view('payments.create', ['recursos' => $recursos,'pagos' => $pagos]);
     }
+
+    public function refresh($loan_id,$client_id)
+    {
+        $recursos = Loan::where('id',$loan_id)->where('client_id',$client_id)->get();
+        $pagos = Payment::where('loan_id',$loan_id)->where('client_id',$client_id)->get();
+      
+        return view('payments.create', ['recursos' => $recursos,'pagos' => $pagos]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -112,5 +166,10 @@ class Paymentscontroller extends Controller
         $payment->delete();
 
         return $payment;
+    }
+
+    public function export() 
+    {
+        return Excel::download(new PaymentsExport, 'ResumenDePagos.xlsx');
     }
 }

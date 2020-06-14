@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-6 mx-auto">
+    <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h3 class="mb-0">{{ __('New Payment') }}</h3>
+                        <h3 class="mb-0">{{ __('New payment') }}</h3>
                     </div>
                     <div>
                         <a href="{{ route('payments.index') }}" class="btn btn-danger">
@@ -16,78 +16,88 @@
                     </div>
                 </div>
             </div>
+            <div class="card-body d-flex justify-content-between">
+                <div class="col-md-5 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                            </div>
+                        </div>
+                        <div class="card-body  justify-content-between">
+                        <!-- code -->
+                            <p> <span style="font-weight: bold;">Cliente: </span>{{ $recursos[0]->client->name }}</p>
+                            <p><span style="font-weight: bold;">Total abonado: $ </span>  {{ $recursos[0]->SaldoAbonado }}</p>
+                            <p style="margin-bottom:0;"><span style="font-weight: bold;">Saldo pendiente: $   </span> {{ ($recursos[0]->payments_number * $recursos[0]->fee ) - $recursos[0]->SaldoAbonado }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                            </div>
+                        </div>
+                        <div class="card-body d-flex justify-content-between">
+                        <!-- inicia -->
+                        <form action="/payments/pay/{{ $pagos[0]->loan_id}}/{{ $pagos[0]->client_id}}" method="get">
+                            @csrf
+                            <div class="justify-content-between">
+                                <div class="">
+                                    <label for="Cantidad">{{ __('Quantity') }}</label>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <input type="Cantidad"  name="Cantidad" id="Cantidad" class="form-control @error('Cantidad') is-invalid @enderror col-md-8"> 
+                                    <button type="submit" class="btn btn-primary" style="margin-left:10px;">{{ __('Pay') }}</button>
+                                    @error('Cantidad')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- tabla -->
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h3 class="mb-0">{{ __('Payment details')}}</h3>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
-                <form action="{{ route('payments.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group form-row">
-                        <div class="col-md-6">
-                        
-                            <label for="client_id">{{ __('Client') }}</label>
-                            <input type="text" name="client_id" id="client_id" class="form-control @error('client_id') is-invalid @enderror">
-                            @error('client_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="amount">{{ __('Amount') }}</label>
-                            <input type="text" name="amount" id="amount" class="form-control @error('amount') is-invalid @enderror">
-                            @error('amount')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group form-row">
-                        <div class="col-md-6">
-                            <label for="payments_number">{{ __('Numero de Pagos en Dias') }}</label>
-                            <input type="int" name="payments_number" id="payments_number" class="form-control @error('payments_number') is-invalid @enderror">
-                            @error('payments_number')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="fee">{{ __('Fee') }}</label>
-                            <input type="int" name="fee" id="fee" class="form-control @error('fee') is-invalid @enderror">
-                            @error('fee')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group form-row">
-                        <div class="col-md-6">
-                            <label for="ministry_date">{{ __('Ministry Date') }}</label>
-                            <input type="date" name="ministry_date" id="ministry_date" class="form-control @error('ministry_date') is-invalid @enderror">
-                            @error('ministry_date')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="due_date">{{ __('Due Date') }}</label>
-                            <input type="date" name="due_date" id="due_date" class="form-control @error('due_date') is-invalid @enderror">
-                            @error('due_date')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg">{{ __('Create') }}</button>
-                    </div>
-                </form>
+                <!-- tabla aca -->
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ __('Payments number')}}</th>
+                            <th scope="col">{{ __('Fee') }}</th>
+                            <th scope="col">{{ __('Subscriber') }}</th>
+                            <th scope="col">{{ __('Payment date') }}</th>
+                            <th scope="col">{{ __('Subscriber date') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($pagos as $pago)
+                        <tr>
+                            <td scope="row">{{ $pago->number }}</td>
+                            <td>{{$pago->loan->fee}}</td>
+                            <td>{{$pago->received_amount}}</td>
+                            <td>{{$pago->payment_date}}</td>
+                            <td>{{$pago->updated_at}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

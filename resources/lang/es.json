@@ -47,6 +47,11 @@
     "Delete": "Eliminar",
     "Import Customers": "Importar Clientes",
     "Actions": "Acciones",
-    "Quantity": "Cantidad"
+    "Quantity": "Cantidad",
+    "Outstanding Balance": "Saldo Pendiente",
+    "Amount Ministered": "Monto Ministrado",
+    "Payments Made" : "Pagos Realizados",
+    "Balance Paid" : "Saldo Abonado",
+    "Export Payments" : "Exportar Pagos"
 
 }

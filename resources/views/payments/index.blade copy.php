@@ -2,50 +2,51 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-10 mx-auto">
+    <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h3 class="mb-0">{{ __('Payments')}}</h3>
+                        <h3 class="mb-0">Pagos</h3>
                     </div>
                     <div>
+                        <a href="{{ route('payments.create') }}" class="btn btn-primary">
+                            {{ __('New Payment')}}
+                        </a>
                         <a href="{{ route('payments.export') }}" class="btn btn-primary">
-                            {{ __('Export Payments')}}
+                            {{ __('Export payments')}}
                         </a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <!-- tabla aca -->
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">{{ __('Name') }}</th>
-                            <th scope="col">{{ __('Amount Ministered') }}</th>
-                            <th scope="col">{{ __('Fee') }}</th>
-                            <th scope="col">{{ __('Payments Number') }}</th>
-                            <th scope="col">{{ __('Payments Made') }}</th>
-                            <th scope="col">{{ __('Balance Paid') }}</th>
-                            <th scope="col">{{ __('Outstanding Balance') }}</th>
+                            <th scope="col">Monto Ministrado</th>
+                            <th scope="col">Cuota</th>
+                            <th scope="col">Numero de Pagos</th>
+                            <th scope="col">Pagos Realizados</th>
+                            <th scope="col">Saldo Abonado</th> 
+                            <th scope="col">Saldo Pendiente</th> 
                             <th scope="col" style="width: 150px">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($recursos as $payment)
+                        @foreach ($payments as $payment)
                         <tr>
-                            <td scope="row">{{ $payment->id}}</td>
-                            <td>{{$payment->Client->name}}</td>
-                            <td>{{$payment->amount}}</td>
-                            <td>{{$payment->fee}}</td>
-                            <td>{{$payment->payments_number}}</td>
-                            <td>{{ $payment->PagosCompletados }}</td>
-                            <td>{{ $payment->SaldoAbonado}}</td>
-                            <td>{{ $payment->amount - $payment->SaldoAbonado }}</td>
+                            <td scope="row">{{ $payment->id }}</td>
+                            <td>{{ $payment->Client->name}}</td>
+                            <td>{{ $payment->amount }}</td>
+                            <td>{{ $payment->fee }}</td>
+                            <td>{{ $payment->fee }}</td>
+                            <td>{{ $payment->ministry_date }}</td>
+                            <td>{{ $payment->due_date }}</td>
                             <td>
-                                <a href="/payments/show/{{ $payment->id }}/ {{ $payment->client_id}}" class="btn btn-outline-secondary btn-sm">
-                                   Show
+                                <a href="" class="btn btn-outline-secondary btn-sm">
+                                    Show
                                 </a>
                                 <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $payment->id }}">Delete</button>
                             </td>
@@ -58,7 +59,7 @@
     </div>
 </div>
 @endsection
-<!-- seccion de boton aca -->
+
 @section('bottom-js')
 <script>
     $('body').on('click', '.btn-delete', function(event) {
@@ -78,7 +79,7 @@
                     .then(result => {
                         Swal.fire({
                             title: 'Borrado',
-                            text: 'El cliente a sido borrado',
+                            text: 'El prestamo a sido borrado',
                             icon: 'success'
                         }).then(() => {
                             window.location.href='{{ route('payments.index') }}';
@@ -87,7 +88,7 @@
                     .catch(error => {
                         Swal.fire(
                             'Ocurrió un error',
-                            'El cliente no ha podido borrarse.',
+                            'El prestamo no ha podido borrarse.',
                             'error'
                         );
                     });

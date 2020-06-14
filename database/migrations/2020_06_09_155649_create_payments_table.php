@@ -22,6 +22,8 @@ class CreatePaymentsTable extends Migration
             $table->date('payment_date');
             $table->decimal('received_amount');
             $table->timestamps();
+
+            
             $table->foreign('client_id')
             ->references('id')
             ->on('clients');

@@ -37,7 +37,7 @@
                                 <td>{{ $loan->payments_number}}</td>
                                 <td>{{ $loan->fee }}</td>
                                 <td>{{ $loan->ministry_date }}</td>
-                                <td>{{ $loan->due_date }}</td>
+                                <td>{{ $loan->due_date}}</td>
                                 <td>
                                     <a href="#" class="btn btn-outline-secondary btn-sm">Ver</a>
                                     <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $loan->id }}" >Borrar</button>

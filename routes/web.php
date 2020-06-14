@@ -56,4 +56,10 @@ Route::get('/payments/new', 'PaymentsController@create')
 Route::post('/payments', 'PaymentsController@store')
     ->name('payments.store');
 Route::delete('/payments/{id}', 'PaymentsController@destroy')
-    ->name('payments.destroy');        
+    ->name('payments.destroy');
+Route::get('/payments/export/', 'PaymentsController@export')
+    ->name('payments.export');        
+Route::get('/payments/show/{loan_id}/{client_id}', 'PaymentsController@show');
+Route::get('/payments/show/{loan_id}/{client_id}', 'PaymentsController@refresh')
+->name('payments.refresh');
+Route::get('/payments/pay/{loan_id}/{client_id}', 'PaymentsController@store');
