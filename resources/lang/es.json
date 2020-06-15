@@ -52,6 +52,12 @@
     "Amount Ministered": "Monto Ministrado",
     "Payments Made" : "Pagos Realizados",
     "Balance Paid" : "Saldo Abonado",
-    "Export Payments" : "Exportar Pagos"
+    "Export Payments" : "Exportar Pagos",
+    "Subscriber" : "Abonado",
+    "Payment Date" : "Fecha de Pago",
+    "Pay": "Pagar",
+    "Payment details" : "Detalles de Pago",
+    "Subscriber Date": "Fecha de Abono"
+
 
 }

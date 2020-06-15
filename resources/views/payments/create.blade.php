@@ -7,7 +7,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h3 class="mb-0">{{ __('New payment') }}</h3>
+                        <h3 class="mb-0">{{ __('New Payment') }}</h3>
                     </div>
                     <div>
                         <a href="{{ route('payments.index') }}" class="btn btn-danger">
@@ -24,9 +24,9 @@
                             </div>
                         </div>
                         <div class="card-body  justify-content-between">
-                        <!-- code -->
+                       
                             <p> <span style="font-weight: bold;">Cliente: </span>{{ $recursos[0]->client->name }}</p>
-                            <p><span style="font-weight: bold;">Total abonado: $ </span>  {{ $recursos[0]->SaldoAbonado }}</p>
+                            <p><span style="font-weight: bold;">Total Abonado: $ </span>  {{ $recursos[0]->SaldoAbonado }}</p>
                             <p style="margin-bottom:0;"><span style="font-weight: bold;">Saldo pendiente: $   </span> {{ ($recursos[0]->payments_number * $recursos[0]->fee ) - $recursos[0]->SaldoAbonado }}</p>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="card-body d-flex justify-content-between">
-                        <!-- inicia -->
+                        
                         <form action="/payments/pay/{{ $pagos[0]->loan_id}}/{{ $pagos[0]->client_id}}" method="get">
                             @csrf
                             <div class="justify-content-between">
@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-<!-- tabla -->
+
 <div class="row" style="margin-top:20px;">
     <div class="col-md-8 mx-auto">
         <div class="card">
@@ -75,15 +75,15 @@
                 </div>
             </div>
             <div class="card-body">
-                <!-- tabla aca -->
+               
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">{{ __('Payments number')}}</th>
+                            <th scope="col">{{ __('Payments Number')}}</th>
                             <th scope="col">{{ __('Fee') }}</th>
                             <th scope="col">{{ __('Subscriber') }}</th>
-                            <th scope="col">{{ __('Payment date') }}</th>
-                            <th scope="col">{{ __('Subscriber date') }}</th>
+                            <th scope="col">{{ __('Payment Date') }}</th>
+                            <th scope="col">{{ __('Subscriber Date') }}</th>
                         </tr>
                     </thead>
                     <tbody>
