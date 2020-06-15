@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Loan;
 use App\Models\Client;
 use App\Models\Payment;
-use Carbon\Carbon;
-use DB;
+
+
 class LoansController extends Controller
 {
     public function __construct(){
@@ -74,7 +74,6 @@ class LoansController extends Controller
             'finished' => 0,
         ]);
         $id = $Loan->id;
-        //creamos los registros de los payments o pagos
         for ($i = 1; $i <= $numeroPagos; $i++) {
             $dias = (int) 0;
             $dias++;

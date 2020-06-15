@@ -6,7 +6,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\ClientImport; //  <--Revisar esto
+use App\Imports\ClientImport;
 
 class ClientsController extends Controller
 {

@@ -56,7 +56,7 @@ class Paymentscontroller extends Controller
         {
            if($Cantidad > 0)
            {
-                if($abono->received_amount <= 0)//cuando tengo 0 abonado
+                if($abono->received_amount <= 0)
                 {
                     if($Cantidad == $abono->loan->fee)
                     {
@@ -64,7 +64,7 @@ class Paymentscontroller extends Controller
                         Payment::where('id', $abono->id)->update(['received_amount' => $Cantidad, 'complet' => 1]);
                         $Cantidad = $Cantidad - $abono->loan->fee;
                     }
-                    else if ($Cantidad > $abono->loan->fee)//cuano no he depositado pero tengo más del que necesito
+                    else if ($Cantidad > $abono->loan->fee)
                     {
                         Payment::where('id', $abono->id)->update(['received_amount' => $abono->loan->fee, 'complet' => 1]);
                         $Cantidad = $Cantidad - $abono->loan->fee;
@@ -75,20 +75,20 @@ class Paymentscontroller extends Controller
                         
                     }
                 }
-                else //cuando ya tengo algo abonado
+                else 
                 {
-                    // lo que me falta pagar = lo que debo pagar - lo que ya pague;
+                    
                     $resto = $abono->loan->fee - $abono->received_amount;
                     if($Cantidad >= $resto)
                     {
                         Payment::where('id', $abono->id)->update(['received_amount' => $abono->loan->fee, 'complet' => 1]);
                         $Cantidad = $Cantidad - $resto;
                     }
-                    //con lo que estoy pagando es menor a lo que debo
-                    else //if($Cantidad < $resto) //mi cantidad entrante es menor a lo que debo pagar
+                   
+                    else
                     {
                         
-                        //$Total = lo que ya deposite + la cantidad que viene del nuevo deposito
+                        
                         $Total = $abono->loan->received_amount + $Cantidad;
                         Payment::where('id', $abono->id)->update(['received_amount' => $Total, 'complet' => 0]);
                         $Cantidad = 0;
@@ -96,9 +96,9 @@ class Paymentscontroller extends Controller
                 }
            }
         }
-        //si ya se pagaron todos los pagos, poner en finished 1
+        
         $NumeroPagos = Loan::where('id',$loan_id)->first();
-        //saber cuantos
+        
         $PagosHechos = Payment::where('loan_id',$loan_id)->where('client_id',$client_id)->where('complet',1)->count();
         if($NumeroPagos->payments_number == $PagosHechos)
         {
