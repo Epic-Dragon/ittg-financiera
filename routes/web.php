@@ -34,7 +34,12 @@ Route::delete('/clients/{id}', 'ClientsController@destroy')
 Route::post('/clients/import/save', 'ClientsController@importExcel')
     ->name('clients.save');
 Route::get('/clients/import', 'ClientsController@import')
-    ->name('clients.import'); 
+    ->name('clients.import');
+Route::get('/clients/edit/{id}', 'ClientsController@edit')
+    ->name('clients.edit');    
+Route::post('/clients/edit/{id}', 'ClientsController@update')
+    ->name('clients.update'); 
+
 
 
 
@@ -46,6 +51,10 @@ Route::post('/loans', 'LoansController@store')
     ->name('loans.store');
 Route::delete('/loans/{id}', 'LoansController@destroy')
     ->name('loans.destroy');
+Route::get('/loans/edit/{id}', 'LoansController@edit')
+    ->name('loans.edit');
+Route::post('/loans/edit/{id}', 'LoansController@update')
+    ->name('loans.update');
 
 
 

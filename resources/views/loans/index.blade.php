@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                       @foreach($recursos as $loan)
+                       @foreach($loans as $loan)
                             <tr>
                                 <td>{{ $loan->id }}</td>
                                 <td>{{ $loan->client->name }}</td>
@@ -39,7 +39,7 @@
                                 <td>{{ $loan->ministry_date }}</td>
                                 <td>{{ $loan->due_date}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-secondary btn-sm">Ver</a>
+                                <a href="{{ route('loans.edit',['id' => $loan->id]) }}" class="btn btn-outline-secondary btn-sm">Ver</a>
                                     <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $loan->id }}" >Borrar</button>
                                 </td>
                             </tr>

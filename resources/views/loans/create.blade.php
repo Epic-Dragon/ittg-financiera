@@ -25,7 +25,7 @@
                             <!-- <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"> -->
                             
                                 <select name="client" id="cars" class="form-control @error('client') is-invalid @enderror col-md-12">
-                                @foreach($recursos as $Client)
+                                @foreach($loans as $Client)
                                     <option value="{{$Client->id}}">{{$Client->name}}</option>
                                 @endforeach
                                 </select>
@@ -70,7 +70,7 @@
                     <div class="form-group form-row">
                         <div class="col-md-6">
                             <label for="fechaMinistry">{{ __('Ministry Date') }}</label>
-                            <input type="date"  value="{{ $recursos[0]->fechacrea_format->format('Y-m-d')}}" name="fechaMinistry" id="fechaMinistry"  class="form-control @error('fechaMinistry') is-invalid @enderror">
+                            <input type="date"  value="{{ $loans[0]->fechacrea_format->format('Y-m-d')}}" name="fechaMinistry" id="fechaMinistry"  class="form-control @error('fechaMinistry') is-invalid @enderror">
                             @error('fechaMinistry')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -79,7 +79,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="fechaVencimiento">{{ __('Due Date') }}</label>
-                            <input type="date" value="{{ $recursos[0]->FechaCal->addDays('fechaVencimiento')->format('Y-m-d')}}" name="fechaVencimiento" id="address" class="form-control @error('fechaVencimiento') is-invalid @enderror">
+                            <input type="date" value="{{ $loans[0]->FechaCal->addDays('fechaVencimiento')->format('Y-m-d')}}" name="fechaVencimiento" id="address" class="form-control @error('fechaVencimiento') is-invalid @enderror">
                             @error('fechaVencimiento')
                                 <div class="invalid-feedback">
                                     {{ $message }}

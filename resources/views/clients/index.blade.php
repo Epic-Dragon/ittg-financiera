@@ -38,9 +38,7 @@
                             <td>{{ $client->name }}</td>
                             <td>{{ $client->phone }}</td>
                             <td>
-                                <a href="" class="btn btn-outline-secondary btn-sm">
-                                    Ver
-                                </a>
+                            <a href="{{ route('clients.edit', ['id' => $client->id]) }}" class="btn btn-outline-secondary btn-sm">Ver</a>
                                 <button class="btn btn-outline-danger btn-sm btn-delete" data-id="{{ $client->id }}">Eliminar</button>
                             </td>
                         </tr>

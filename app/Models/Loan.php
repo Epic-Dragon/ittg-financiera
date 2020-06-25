@@ -31,9 +31,16 @@ class Loan extends Model
     {
         return $this->payment()->where('complet',1)->count();
     }
+
     public function getSaldoAbonadoAttribute()
     {
         return $this->payment()->sum('received_amount');
+    }
+
+    public function getSaldoPendienteAttribute()
+    {
+        $saldoPendiente = $this->payments()->sum('amount') - $this->saldoAbonado;
+        return $saldoPendiente;
     }
 
    
